@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title%}User 리스트{% endblock %}
+{% block main_breadscumb%}대시보드{% endblock %}
+{% block sub_breadscumb_highlight %}User List{% endblock%}
+{% block sub_breadscumb %}User 리스트{% endblock %}
+{% block content %}
+    <h2>유저 리스트</h2>
+    <h4>{%if msg%}{{msg}}{%endif%}</h4>
+    <table class="table table-bordered">
+      <thead>
+        <th>ID</th>
+        <th>유저이름</th>
+        <th>이메일</th>
+        <th>가입일</th>
+      </thead>
+      {% for u in users %}
+      <tr class={% cycle "table-dark" "" %}>
+        <td>{{u.id}}</td>
+        <td>{{u.username}}</td>
+        <td>{{u.email}}</td>
+        <td>{{u.date_joined}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        {% if users.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?p={{users.previous_page_number }}">Prev</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="#">Prev</a>
+        </li>
+        {% endif %}
+        <li class="page-item">
+          <a class="page-link" href="?p={{users.number|add:1 }}">{{users.number}}/{{users.paginator.num_pages}}</a>
+        </li>
+        {% if users.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?p={{users.next_page_number }}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <p>
+      <a href="{% url 'index' %}">홈으로</a>
+    </p>
+{% endblock %}
